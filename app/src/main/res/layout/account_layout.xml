@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/accView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account info here"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="167dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cont"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="182dp"
+        android:layout_height="76dp"
+        android:layout_below="@+id/accView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="219dp"
+        android:background="@drawable/rounded"
+        android:onClick="toCont"
+        android:padding="4dp"
+        android:text="Продолжить"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/quit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="182dp"
+        android:layout_height="76dp"
+        android:layout_below="@+id/accView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="212dp"
+        android:layout_marginLeft="20dp"
+
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="17dp"
+        android:layout_toRightOf="@+id/cont"
+        android:background="@drawable/rounded"
+        android:onClick="toQuit"
+        android:padding="4dp"
+        android:text="Войти в новый аккаунт"
+        android:textColor="@color/white" />
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_cell"
+    android:layout_marginTop="20dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:id="@+id/CatName"
+        android:text="CatName"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="25dp">
+
+
+    </TextView>
+
+</RelativeLayout>
