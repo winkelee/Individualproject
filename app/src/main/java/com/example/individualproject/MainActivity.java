@@ -15,6 +15,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
     public static ArrayList ar = new ArrayList();
@@ -23,13 +27,11 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<String> links = new ArrayList<String>(); // лист
     public String name = null;
     public String imgUrl = null;
-    public ArrayList ing = new ArrayList();
-    public ArrayList ingShowUp1 = new ArrayList();
-    public ArrayList ingShowUp = new ArrayList();
+    public TreeSet ingDB = new TreeSet();
     public ArrayList step = new ArrayList();
-    public ArrayList ingDebug1 = new ArrayList();
-    public ArrayList ingDebug2 = new ArrayList();
+    public ArrayList ingShowUp = new ArrayList();
     public String descAlt = null;
+    public int size = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,38 +74,29 @@ public class MainActivity extends AppCompatActivity {
 
                         for (Element row : parse.select("div.ingredients-bl>ul>li>a:first-of-type>span")){
                             String ing = row.getAllElements().text();
-                            ingDebug1.add(ing);
-                            debug = i;
+                            ingDB.add(ing);
+
+
                         }
 
-                        for (Element row :parse.select("div.ingredients-bl>ul>li>span")){
-                            String ing = row.getAllElements().text();
-                            if (parse.select("div.ingredients-bl>ul>li>span").first() != null){
-                                ingDebug2.add(ing);
-                            } else {
-                                Log.d("Logger", "run: Value is null, proceeding to change the value to default  ");
-                                ingDebug2.add("По вкусу");
-                                Log.d("Logger", "run: Success  ");
-                            }
+                        for (Element row : parse.select("div.ingredients-bl>ul>li")){
+                            Elements val = row.select("span");
+                            String ing;
+                            ing = val.text();
 
 
-                            debug = i;
+                            ingShowUp.add(ing);
+
+
+
                         }
-                        Log.d("Logger", "run: Debug1 size is  " + ingDebug1.size());
-                        Log.d("Logger", "run: Debug1 elements are  " + ingDebug1);
-                        Log.d("Logger", "run: Debug2 size is  " + ingDebug2.size());
-                        Log.d("Logger", "run: Debug2 elements are  " + ingDebug2);
 
-                        for (int k = 0; k<ingDebug1.size(); k++){
-                            ingShowUp.add(ingDebug1.get(k));
-                            ingShowUp.add(ingDebug2.get(k));
-                        }
+
+
+
 
 
                         Log.d("Logger", "run: Ingredients to show up are  " + ingShowUp.toString());
-                        ingShowUp1.clear();
-                        ingDebug1.clear();
-                        ingDebug2.clear();
                         ingShowUp.clear();
                         Log.d("Logger", "run: The url is checked " + links.get(i) + " " + i);
 
