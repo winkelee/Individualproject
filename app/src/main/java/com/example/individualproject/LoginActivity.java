@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void alreadySignedIn(){ //Метод для перехода с этой активности на акк, никакой магии
         if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()){
-            Intent intent = new Intent(LoginActivity.this, AccountActivity.class); //если он уже вошёл, то смысл входить ещё раз? Просто перенаправляем в MA.
+            Intent intent = new Intent(LoginActivity.this, AccountActivity.class); //если он уже вошёл, то смысл входить ещё раз? Просто перенаправляем в АА.
             startActivity(intent);
         }
 

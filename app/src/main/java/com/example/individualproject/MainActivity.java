@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,26 +26,27 @@ import java.util.TreeSet;
 public class MainActivity extends AppCompatActivity {
     public static ArrayList ar = new ArrayList();
     ListView lv;
-    String url= "https://www.povarenok.ru/recipes/~";
-    public ArrayList<String> links = new ArrayList<String>(); // лист
-    public String name = null;
-    public String imgUrl = null;
-    public TreeSet ingDB = new TreeSet();
-    public ArrayList step = new ArrayList();
-    public ArrayList ingShowUp = new ArrayList();
-    public String descAlt = null;
-    public int size = 0;
+    private DatabaseReference recipeDB;
+    final static String url= "https://www.povarenok.ru/recipes/~";
+    public ArrayList<String> links = new ArrayList<String>(); // лист с ссылками на рецепты
+    public String name = null; //имя рецепта
+    public String imgUrl = null;  //Ссылка на картинку рецепта
+    public TreeSet ingDB = new TreeSet(); //Массив (дерево) со всеми ингредиентами, повторений нет
+    public TreeSet ing1 = new TreeSet(); //Массив (дерево) для поиска
+    public ArrayList step = new ArrayList(); //Массив с шагами по приготовлению
+    public ArrayList ingShowUp = new ArrayList(); //Массив для ингредиентов, которые будут показаны в приложениии
+    public String descAlt = null; //Альтернативная версия шагов по приготовлению. Для рецептов, в которых есть только описание
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
-
+        recipeDB = FirebaseDatabase.getInstance().getReference("Recipes");
         Thread thread = new Thread(new Runnable() { // новый поток для обхода NetworkFromMainThreadException
             int debug = 0;
+
             @Override
             public void run() {
                 try {
-
 
                     for (int i = 1; i< 100; i++){ //Программа проходит по первым 100 страницам с рецептами и собирает на них ссылки
                         Document parse = Jsoup.connect(url + i).get(); //Работает по такому принципу: добавляет к ссылке в конце число i и переходит по ней, вынимая данные
@@ -51,55 +55,66 @@ public class MainActivity extends AppCompatActivity {
                             String link = row.getAllElements().attr("href");
                             links.add(link);
                             Log.i("Logger", "run: link added " + link +" " + i);
-
-
                         }
-                    }Log.i("Logger", "run: links is completed");
+                    }
 
+                    Log.i("Logger", "run: links is completed");
 
-
-                    for (int i = 0; i< links.size(); i++){
+                    for (int i = 833; i< links.size(); i++){ // Для каждой ссылки отрабатывают следующие циклы
                         Document parse = Jsoup.connect(links.get(i)).get();
                         Log.d("Logger", "run: The url is " + links.get(i));
-                        for (Element row : parse.select("h1")){
+
+                        for (Element row : parse.select("h1")){ //Получаем имя рецепта
                             name = row.getAllElements().text();
-                            Log.d("Logger", "run: Name is " + name);
                             debug = i;
-                    }
-                        for (Element row : parse.select("div.m-img>img").subList(0, Math.min(1, parse.select("div.m-img>img").size()))){
-                            String imgUrl = row.getAllElements().attr("src");
-                            Log.d("Logger", "run: Image url is " + imgUrl);
+                        }
+                        for (Element row : parse.select("div.m-img>img").subList(0, Math.min(1, parse.select("div.m-img>img").size()))){ //Получаем картинку
+                            imgUrl = row.getAllElements().attr("src"); //Цикл берёт первую картинку в блоке рецепта и получает ссылку, потом мы её расшифруем (не здесь)
                             debug = i;
                         }
 
-                        for (Element row : parse.select("div.ingredients-bl>ul>li>a:first-of-type>span")){
+                        for (Element row : parse.select("div.ingredients-bl>ul>li>a:first-of-type>span")){ //Получение всех ингредиентов со 100 страниц и запись в дерево без повторений
                             String ing = row.getAllElements().text();
                             ingDB.add(ing);
-
+                            ing1.add(ing);
 
                         }
 
-                        for (Element row : parse.select("div.ingredients-bl>ul>li")){
+                        for (Element row : parse.select("div.ingredients-bl>ul>li")){ //Получение ингредиентов для показа в рецепте
                             Elements val = row.select("span");
                             String ing;
                             ing = val.text();
-
-
                             ingShowUp.add(ing);
+                        }
 
+                        for (Element row : parse.select("ul>li.cooking-bl>div>p")){ //Получение шагов по рецепту
+                            String stepElement = row.getAllElements().text();
+                            step.add(stepElement);
+                        }
 
+                        for (Element row : parse.select("article.item-bl.item-about>div>div:not([class])")){ //Получение описания
+                            descAlt = row.getAllElements().text();
+                        }
 
+                        if (step.isEmpty()){
+                            String id = recipeDB.getKey();
+                            ArrayList ing11 = new ArrayList(ing1);
+                            Recipe recipe = new Recipe(id, name, imgUrl, ing11, ingShowUp, descAlt);
+                            Log.d("Logger", "run: Recipe is  " + recipe);
+                            recipeDB.push().setValue(recipe);
+                        } else{
+                            String id = recipeDB.getKey();
+                            ArrayList ing11 = new ArrayList(ing1);
+                            Recipe recipe = new Recipe(id, name, imgUrl, ing11, ingShowUp, step);
+                            Log.d("Logger", "run: Recipe is  " + recipe);
+                            recipeDB.push().setValue(recipe);
                         }
 
 
-
-
-
-
-                        Log.d("Logger", "run: Ingredients to show up are  " + ingShowUp.toString());
                         ingShowUp.clear();
+                        step.clear();
+                        ing1.clear();
                         Log.d("Logger", "run: The url is checked " + links.get(i) + " " + i);
-
 
                     }
 
