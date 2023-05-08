@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FFFFFF"
     android:layout_height="match_parent">
 
     <TextView
@@ -9,8 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Account info here"
+        android:textColor="#434343"
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="167dp"
+        android:fontFamily="@font/namu"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"/>
 
@@ -29,6 +32,7 @@
         android:background="@drawable/rounded"
         android:onClick="toCont"
         android:padding="4dp"
+        android:fontFamily="@font/namu"
         android:text="Продолжить"
         android:textColor="@color/white" />
 
@@ -41,6 +45,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="212dp"
+        android:fontFamily="@font/namu"
         android:layout_marginLeft="20dp"
 
         android:layout_marginTop="61dp"

@@ -27,7 +27,7 @@ public class IngredientsAdapter extends ArrayAdapter<Ingredient> {
 
         //Даёт адаптеру View для работы
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_part, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ing_part, parent, false);
         }
         TextView name = (TextView) convertView.findViewById(R.id.CatName);
         Ingredient ig = getItem(position);

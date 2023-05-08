@@ -10,14 +10,24 @@ public class Ingredient {
         this.name = name;
     }
 
+    public Ingredient(){
+
+    }
+
     public Ingredient(int id2, String name){
         this.id2 = id2;
         this.name = name;
     }
 
+    public void setId2(int id2) {
+        this.id2 = id2;
+    }
 
     public String getId() {
         return id;
+    }
+    public int getId2() {
+        return id2;
     }
 
     public String getName() {
