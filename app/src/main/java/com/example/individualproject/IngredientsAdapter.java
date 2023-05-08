@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class IngredientsCategoryAdapter extends ArrayAdapter<IngredientCategory> {
+public class IngredientsAdapter extends ArrayAdapter<Ingredient> {
 
-    public IngredientsCategoryAdapter(int resource, Context context, List<IngredientCategory> list){
+    public IngredientsAdapter(int resource, Context context, List<Ingredient> list){
         super(context, resource, list);
     }
 
@@ -22,7 +22,7 @@ public class IngredientsCategoryAdapter extends ArrayAdapter<IngredientCategory>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        //обычная инициализация элементов. TODO: добавить иконку
+        //обычная инициализация элементов.
 
 
         //Даёт адаптеру View для работы
@@ -30,7 +30,7 @@ public class IngredientsCategoryAdapter extends ArrayAdapter<IngredientCategory>
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_part, parent, false);
         }
         TextView name = (TextView) convertView.findViewById(R.id.CatName);
-        IngredientCategory ig = getItem(position);
+        Ingredient ig = getItem(position);
         name.setText(ig.getName());
 
         return convertView; //Возвращает новоиспечённый View, наполненный элементами
