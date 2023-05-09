@@ -3,13 +3,20 @@ package com.example.individualproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +38,7 @@ import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
     public static ArrayList<Ingredient> ar = new ArrayList<>();
-    ListView lv;
+    private ListView lv;
     private DatabaseReference ingdsDB;
     private IngredientsAdapter ia;
     private SearchView searchBar;
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> links = new ArrayList<String>(); // лист с ссылками на рецепты
     private String name = null; //имя рецепта
     int l =0;
+    private ArrayList<Ingredient> userPreferences = new ArrayList<>();
     private String imgUrl = null;  //Ссылка на картинку рецепта
     private TreeSet ingDB = new TreeSet(); //Массив (дерево) со всеми ингредиентами, повторений нет
     private TreeSet ing1 = new TreeSet(); //Массив (дерево) для поиска
@@ -50,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
         ingdsDB = FirebaseDatabase.getInstance().getReference("Ingredients");
-        searchBar = findViewById(R.id.searchBar); //Работа с поиском ингредиентов
+        searchBar = findViewById(R.id.searchBar); //Работа с поиском ингредиентов TODO: пофиксить тему
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) { //Вызывается при применении поиска пользователем
@@ -123,15 +131,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Ingredient item = (Ingredient) lv.getItemAtPosition(i); //элемент, на который нажал пользователь
-                Intent detailedCat = new Intent(getApplicationContext(), activity_ingredients.class); //intent для перехода в другую активность
+                if (!userPreferences.contains(item)){
+                    userPreferences.add(item);
+                    Log.d("Logger", "onItemClick: The preferences are " + userPreferences);
+                    Toast.makeText(MainActivity.this, "Вы выбрали: " + item.getName(), Toast.LENGTH_SHORT).show();
+
+                }else {
+                    userPreferences.remove(item);
+                    Log.d("Logger", "onItemClick: The preferences are " + userPreferences);
+                    Toast.makeText(MainActivity.this, "Вы убрали: " + item.getName(), Toast.LENGTH_SHORT).show();
+                }
+
+
+                //Intent detailedCat = new Intent(getApplicationContext(), activity_ingredients.class);
+
 
                 //передача обьекта в activity_ingredients с ключом id и значением id выбранного элемента
-                detailedCat.putExtra("id", item.getId2());
-                startActivity(detailedCat);
+                //detailedCat.putExtra("id", item.getId2());
+                //startActivity(detailedCat);
             }
         });
     }
-
 
 
 }

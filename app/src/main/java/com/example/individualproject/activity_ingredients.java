@@ -8,13 +8,13 @@ import android.widget.TextView;
 
 public class activity_ingredients extends AppCompatActivity {
 
-    IngredientCategory ic;
+    Ingredient ingredient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingredients); //TODO: понять как же использовать это ваш парсинг сайта
+        setContentView(R.layout.activity_ingredients);
         
 
         //Intent intent = getIntent();
