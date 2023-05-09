@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> links = new ArrayList<String>(); // лист с ссылками на рецепты
     private String name = null; //имя рецепта
     int l =0;
-    private ArrayList<Ingredient> userPreferences = new ArrayList<>();
+    public static ArrayList<Ingredient> userPreferences = new ArrayList<>();
     private String imgUrl = null;  //Ссылка на картинку рецепта
     private TreeSet ingDB = new TreeSet(); //Массив (дерево) со всеми ингредиентами, повторений нет
     private TreeSet ing1 = new TreeSet(); //Массив (дерево) для поиска
@@ -151,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(detailedCat);
             }
         });
+    }
+
+    public void toVerify(View view){
+        Intent intent = new Intent(getApplicationContext(), VerifyIngredientsActivity.class);
+        startActivity(intent);
     }
 
 
