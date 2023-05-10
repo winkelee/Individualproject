@@ -9,6 +9,7 @@ public class Recipe {
     public String id; //Класс рецепта для добавления в базу данных
     public String name = "RECIPE_NAME";
     public String imgUrl = "IMAGE_URL";
+    int id2;
     public ArrayList ing = new ArrayList(); //Ингредиенты для поиска
     public ArrayList ingShowUp = new ArrayList(); //Ингредиенты для показа в приложении
     public String descAlt = "ALTERNATIVE_DESCRIPTION"; //Для рецептов без пошагового приготовления
@@ -30,6 +31,28 @@ public class Recipe {
         this.id = id;
         this.descAlt = descAlt;
         this.ingShowUp = ingShowUp;
+    }
+
+    public Recipe(int id2, String name, String imgUrl, ArrayList ing, ArrayList ingShowUp, ArrayList step){
+        this.name = name;
+        this.id2 = id2;
+        this.imgUrl = imgUrl;
+        this.ing = ing;
+        this.step = step;
+        this.ingShowUp = ingShowUp;
+    }
+
+    public Recipe(int id2, String name, String imgUrl, ArrayList ing, ArrayList ingShowUp, String descAlt){
+        this.name = name;
+        this.imgUrl = imgUrl;
+        this.ing = ing;
+        this.id2 = id2;
+        this.descAlt = descAlt;
+        this.ingShowUp = ingShowUp;
+    }
+
+    public Recipe(){
+
     }
 
     public String getName() {
@@ -54,6 +77,10 @@ public class Recipe {
 
     public ArrayList getStep() {
         return step;
+    }
+
+    public void setId2(int id2) {
+        this.id2 = id2;
     }
 
     @Override

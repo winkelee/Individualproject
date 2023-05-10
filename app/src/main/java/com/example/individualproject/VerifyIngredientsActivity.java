@@ -22,8 +22,7 @@ public class VerifyIngredientsActivity extends AppCompatActivity {
 
     private ListView listView;
     private IngredientsAdapter ia;
-    private ArrayList userPreferences = new ArrayList(MainActivity.userPreferences);
-    private ArrayList userPreferences2 = new ArrayList();
+    public static ArrayList userPreferences = new ArrayList(MainActivity.userPreferences);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,11 @@ public class VerifyIngredientsActivity extends AppCompatActivity {
                 Toast.makeText(VerifyIngredientsActivity.this, "Вы убрали: " + item.getName(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void toRecipes(View view){
+        Intent intent = new Intent(VerifyIngredientsActivity.this, RecipesActivity.class);
+        startActivity(intent);
     }
 
 

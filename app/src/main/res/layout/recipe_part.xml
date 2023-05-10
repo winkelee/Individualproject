@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/layoutRecipes"
+    android:layout_height="150dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
+    android:orientation="horizontal"
+    android:background="@drawable/list_item_background"
+    android:layout_marginTop="20dp">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/recipeImage"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:shapeAppearanceOverlay="@style/cornered"
+        app:srcCompat="@drawable/placeholder"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recipeName"
+        android:text="recipeName"
+        android:layout_marginTop="10dp"
+        android:gravity="top"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:layout_toRightOf="@id/recipeImage"
+        android:fontFamily="@font/namu"
+        android:textColor="@color/black"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recipeIngs"
+        android:layout_below="@id/recipeName"
+        android:text="recipeIngredients"
+        android:layout_toRightOf="@id/recipeImage"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:layout_centerHorizontal="true"
+        android:textSize="16dp"
+        android:fontFamily="@font/namu"
+        android:textColor="@color/darkerGray"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+
+    </TextView>
+
+
+
+
+</RelativeLayout>

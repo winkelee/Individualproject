@@ -25,14 +25,30 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="8pt"
         android:fontFamily="@font/namu"
+        android:background="@drawable/bordered"
         android:text="Вот, что вы выбрали! Нажмите на ингредиент, чтобы удалить его."
         app:layout_constraintBottom_toTopOf="@+id/ingList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="@color/secondaryGreenColor"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        android:onClick="toRecipes"
+        app:srcCompat="@drawable/ico_float"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
