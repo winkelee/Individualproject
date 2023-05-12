@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView android:layout_height="match_parent" android:layout_width="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/recImageDetailed"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:gravity="center"
+                android:src="@drawable/placeholder"
+                android:scaleX="1.8"
+                android:scaleY="1.2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/recNameDetailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="recipeName"
+                android:gravity="center"
+                app:flow_horizontalAlign="center"
+                android:textSize="23dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/namu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recImageDetailed" />
+
+            <TextView
+                android:id="@+id/recIngsDetailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="recIngs"
+                android:layout_marginLeft="20dp"
+                android:textSize="19dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/namu"
+                android:textColor="@color/darkerGray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recNameDetailed" />
+
+            <TextView
+                android:id="@+id/recStepsDetailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="recSteps"
+                android:textSize="17dp"
+                android:textColor="@color/evenDarkerGray"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/namu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recIngsDetailed" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -11,4 +11,5 @@
     <color name="secondaryGreenColor">#42BC7F</color>
     <color name="gray">#858585</color>
     <color name="darkerGray">#4E4E4E</color>
+    <color name="evenDarkerGray">#323232</color>
 </resources>
