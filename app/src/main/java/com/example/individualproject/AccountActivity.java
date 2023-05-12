@@ -16,8 +16,7 @@ public class AccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        getSupportActionBar().hide();
         setContentView(R.layout.account_layout);
         textView = findViewById(R.id.accView);
         textView.setText("Добро пожаловать! Вы вошли в аккаунт.");

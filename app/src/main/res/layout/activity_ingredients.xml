@@ -7,7 +7,6 @@
     android:background="#FFFFFF"
     tools:context=".activity_ingredients">
 
-
     <SearchView
         android:id="@+id/searchBar"
         android:layout_width="match_parent"

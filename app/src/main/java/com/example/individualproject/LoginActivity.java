@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.greetings_layout);
-
+        getSupportActionBar().hide();
         //привязываем значения
         textPass = findViewById(R.id.pass);
         textLog = findViewById(R.id.email);

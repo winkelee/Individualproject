@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -57,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
+        getSupportActionBar().hide();
         ingdsDB = FirebaseDatabase.getInstance().getReference("Ingredients");
-        searchBar = findViewById(R.id.searchBar); //Работа с поиском ингредиентов TODO: пофиксить тему
+        searchBar = findViewById(R.id.searchBar); //Работа с поиском ингредиентов
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) { //Вызывается при применении поиска пользователем
@@ -123,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         ingdsDB.addValueEventListener(valueEventListener);
-
     }
 
     private void listenerMethod(){ //Простой метод для распознавания нажатия на элемент

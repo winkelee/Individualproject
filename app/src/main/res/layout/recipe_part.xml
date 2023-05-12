@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:id="@+id/layoutRecipes"
-    android:layout_height="150dp"
+    android:layout_height="200dp"
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
     android:orientation="horizontal"
@@ -16,6 +16,7 @@
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginBottom="10dp"
         app:shapeAppearanceOverlay="@style/cornered"
         app:srcCompat="@drawable/placeholder"
@@ -35,6 +36,7 @@
         android:fontFamily="@font/namu"
         android:textColor="@color/black"
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp">
 
 

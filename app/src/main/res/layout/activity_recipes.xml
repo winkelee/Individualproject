@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".RecipesActivity">
 
+
+    <ProgressBar
+        android:id="@+id/loadingView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"> </ProgressBar>
     <ListView
         android:id="@+id/recList"
         android:layout_width="match_parent"
@@ -14,9 +23,36 @@
         android:layout_marginTop="60dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
         android:divider="#00000000"
         android:dividerHeight="10dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="158dp"> </ListView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="@color/secondaryGreenColor"
+        android:scaleX="1.3"
+        android:scaleY="1.3"
+        android:onClick="redo"
+        app:srcCompat="@drawable/ico_float"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"/>
+
+    <SearchView
+        android:id="@+id/recSearch"
+        android:layout_width="409dp"
+        android:background="@drawable/bordered"
+        android:queryHint="Начните ввод рецепта здесь"
+        android:layout_height="58dp"
+        android:iconifiedByDefault="false"
+        app:layout_constraintBottom_toTopOf="@+id/recList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
