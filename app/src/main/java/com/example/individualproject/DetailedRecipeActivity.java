@@ -38,6 +38,7 @@ public class DetailedRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail);
+        getSupportActionBar().hide();
 
         recImage = RecipesActivity.recImage;
         recSteps = RecipesActivity.recSteps;
