@@ -10,31 +10,64 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class IngredientsAdapter extends ArrayAdapter<Ingredient> {
+public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientViewHolder> {
+    RecyclerViewOnClickInterface recyclerViewOnClickInterface;
+    Context context;
+    List<Ingredient> ings;
 
-    public IngredientsAdapter(int resource, Context context, List<Ingredient> list){
-        super(context, resource, list);
+    public void setSearchList(List<Ingredient> filtered){
+        this.ings = filtered;
+        notifyDataSetChanged();
+    }
+
+
+    public IngredientsAdapter(Context context, List<Ingredient> list, RecyclerViewOnClickInterface recyclerViewOnClickInterface){
+    this.context = context;
+    this.ings = list;
+    this.recyclerViewOnClickInterface = recyclerViewOnClickInterface;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new IngredientViewHolder(LayoutInflater.from(context).inflate(R.layout.ing_part,parent,false));
+    }
 
-        //обычная инициализация элементов.
+    @Override
+    public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
+        holder.name.setText(ings.get(position).getName());
 
+    }
 
-        //Даёт адаптеру View для работы
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ing_part, parent, false);
+    @Override
+    public int getItemCount() {
+        return ings.size();
+    }
+
+    public class IngredientViewHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        public IngredientViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.CatName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (recyclerViewOnClickInterface != null){
+                        int position = getAdapterPosition();
+                        if (position !=RecyclerView.NO_POSITION){
+                            recyclerViewOnClickInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
-        TextView name = (TextView) convertView.findViewById(R.id.CatName);
-        Ingredient ig = getItem(position);
-        name.setText(ig.getName());
-
-        return convertView; //Возвращает новоиспечённый View, наполненный элементами
     }
 }
 

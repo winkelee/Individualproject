@@ -3,6 +3,8 @@ package com.example.individualproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,10 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class RecipesActivity extends AppCompatActivity {
+public class RecipesActivity extends AppCompatActivity implements RecyclerViewOnClickInterface{
 
-    private static ArrayList userPreferences = new ArrayList(VerifyIngredientsActivity.userPreferences);
-    private ListView listView;
+    private RecyclerView recyclerView;
     private ProgressBar loadingView;
     private RecipesAdapter recAdapter;
     private SearchView searchBar;
@@ -55,7 +56,6 @@ public class RecipesActivity extends AppCompatActivity {
         recipeDB = FirebaseDatabase.getInstance().getReference("Recipes");
         listMethod();
         fillList();
-        listenerMethod();
         loadingView = findViewById(R.id.loadingView);
         searchBar = findViewById(R.id.recSearch); //Работа с поиском ингредиентов
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -72,22 +72,23 @@ public class RecipesActivity extends AppCompatActivity {
                         recList.add(rec);
                     }
                 }
-                RecipesAdapter ia = new RecipesAdapter(0, getApplicationContext(), recList);
-                listView.setAdapter(ia);
+                recAdapter.setSearchList(recList);
                 return false;
             }
         });
     }
 
     private void listMethod(){
-        listView = findViewById(R.id.recList);
-        recAdapter = new RecipesAdapter(1, getApplicationContext(), showUpRecipe);
-        listView.setAdapter(recAdapter);
+        recyclerView = findViewById(R.id.recList);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+        recAdapter = new RecipesAdapter(getApplicationContext(), showUpRecipe, this);
+        recyclerView.setAdapter(recAdapter);
 
     }
 
     private void fillList(){
-        Log.d(TAG, "fillList: " + userPreferences);
+        Log.d(TAG, "fillList: " + MainActivity.userPreferences);
     ValueEventListener vel = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -95,7 +96,7 @@ public class RecipesActivity extends AppCompatActivity {
                 showUpRecipe.clear();
             }
 
-            if (userPreferences.isEmpty()){
+            if (MainActivity.userPreferences.isEmpty()){
                 for(DataSnapshot ds : snapshot.getChildren()){
                     HashMap<String, String> recipe1 = (HashMap<String, String>) ds.getValue();
                     Log.d("Logger", "onDataChange: " + recipe1.values() + l);
@@ -115,8 +116,8 @@ public class RecipesActivity extends AppCompatActivity {
                     ObjectMapper objectMapper = new ObjectMapper();
                     Recipe recipe = objectMapper.convertValue(recipe1, Recipe.class);
                     searchList = recipe.getIng();
-                    for (int count = 0; count<userPreferences.size(); count++){
-                        Ingredient ing = (Ingredient) userPreferences.get(count);
+                    for (int count = 0; count<MainActivity.userPreferences.size(); count++){
+                        Ingredient ing = (Ingredient) MainActivity.userPreferences.get(count);
                             if (searchList.contains(ing.getName())){
                                 equalCount++;
                             }
@@ -141,39 +142,66 @@ public class RecipesActivity extends AppCompatActivity {
 recipeDB.addValueEventListener(vel);
     }
 
-    private void listenerMethod(){ //Простой метод для распознавания нажатия на элемент
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Recipe item = (Recipe) listView.getItemAtPosition(i); //элемент, на который нажал пользователь
-                Intent intent = new Intent(getApplicationContext(), DetailedRecipeActivity.class);
-                ArrayList showUpIngs = new ArrayList();
-                showUpIngs = item.getIngShowUp();
-                ArrayList recStepsCopy = new ArrayList();
-                recStepsCopy= item.getStep();
-                recIngs = "";
-                recSteps = "";
-                recName = item.getName();
-                recImage = item.getImgUrl();
-                for (int count = 0; count< showUpIngs.size(); count++){
-                    recIngs = recIngs + " \n " + " \n " + (count+1) + ". " + showUpIngs.get(count);
-                }
-                if (recStepsCopy.isEmpty()){
-                    recSteps = item.getDescAlt();
-                }if(item.getDescAlt().contains("Нравятся наши рецепты?")){
-                    recSteps = "Рецепт незакончен пользователем";
-                }
-                else{
-                    for (int count = 0; count< recStepsCopy.size(); count++){
-                        recSteps = recSteps + " \n " + " \n " + (count+1) + ". " + recStepsCopy.get(count);
-                    }
-                }
+  //  private void listenerMethod(){ //Простой метод для распознавания нажатия на элемент
+  //      recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+  //          @Override
+  //          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+  //              Recipe item = (Recipe) recyclerView.getItemAtPosition(i); //элемент, на который нажал пользователь
+  //              Intent intent = new Intent(getApplicationContext(), DetailedRecipeActivity.class);
+  //              ArrayList showUpIngs = new ArrayList();
+  //              showUpIngs = item.getIngShowUp();
+  //              ArrayList recStepsCopy = new ArrayList();
+  //              recStepsCopy= item.getStep();
+  //              recIngs = "";
+  //              recSteps = "";
+  //              recName = item.getName();
+  //              recImage = item.getImgUrl();
+  //              for (int count = 0; count< showUpIngs.size(); count++){
+  //                  recIngs = recIngs + " \n " + " \n " + (count+1) + ". " + showUpIngs.get(count);
+  //              }
+  //              if (recStepsCopy.isEmpty()){
+  //                  recSteps = item.getDescAlt();
+  //              }if(item.getDescAlt().contains("Нравятся наши рецепты?")){
+  //                  recSteps = "Рецепт незакончен пользователем";
+  //              }
+  //              else{
+  //                  for (int count = 0; count< recStepsCopy.size(); count++){
+  //                      recSteps = recSteps + " \n " + " \n " + (count+1) + ". " + recStepsCopy.get(count);
+  //                  }
+  //              }
+//
+//
+  //              startActivity(intent);
+//
+  //          }
+  //      });
+  //  }
 
-
-                startActivity(intent);
-
+    @Override
+    public void onItemClick(int i) {
+        Recipe item = new Recipe(showUpRecipe.get(i));
+        Intent intent = new Intent(getApplicationContext(), DetailedRecipeActivity.class);
+        ArrayList showUpIngs;
+        showUpIngs = item.getIngShowUp();
+        ArrayList recStepsCopy;
+        recStepsCopy= item.getStep();
+        recIngs = "";
+        recSteps = "";
+        recName = item.getName();
+        recImage = item.getImgUrl();
+        for (int count = 0; count< showUpIngs.size(); count++){
+            recIngs = recIngs + " \n " + " \n " + (count+1) + ". " + showUpIngs.get(count);
+        }
+        if (recStepsCopy.isEmpty()){
+            recSteps = item.getDescAlt();
+        }if(item.getDescAlt().contains("Нравятся наши рецепты?")){
+            recSteps = "Рецепт незакончен пользователем";
+        }
+        else{
+            for (int count = 0; count< recStepsCopy.size(); count++){
+                recSteps = recSteps + " \n " + " \n " + (count+1) + ". " + recStepsCopy.get(count);
             }
-        });
+        }
+        startActivity(intent);
     }
-
 }

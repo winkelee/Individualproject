@@ -1,82 +1,103 @@
 package com.example.individualproject;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.io.InputStream;
-import java.net.URL;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogRecord;
 
-public class RecipesAdapter extends ArrayAdapter<Recipe> {
-    TextView name;
-    ShapeableImageView image;
-    TextView ings;
-    static Handler h;
-    Thread thread;
-    public Bitmap is;
-    String placeholderUrl;
-    ImageLoader mLoader = ImageLoader.getInstance();
-    ArrayList<Recipe> ingredients= new ArrayList<>();
+public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder> {
+    RecyclerViewOnClickInterface recyclerViewOnClickInterface;
+    Context context;
+    ArrayList ingsList2;
+    String urlPlaceholder = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
+    List<Recipe> rec;
 
-    public RecipesAdapter(int resource, Context context, List<Recipe> list){
-        super(context, resource, list);
+    public void setSearchList(List<Recipe> filtered){
+        this.rec = filtered;
+        notifyDataSetChanged();
+    }
+
+
+    public RecipesAdapter(Context context, List<Recipe> list, RecyclerViewOnClickInterface recyclerViewOnClickInterface){
+        this.context = context;
+        this.rec = list;
+        this.recyclerViewOnClickInterface = recyclerViewOnClickInterface;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.recipe_part, parent, false);
-        }
-         name =  convertView.findViewById(R.id.recipeName);
-         image = convertView.findViewById(R.id.recipeImage);
-         ings = convertView.findViewById(R.id.recipeIngs);
-         placeholderUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
-
-
-        Recipe rec = getItem(position);
-
-        String ingsCopy = new String();
-        ingredients = rec.getIng();
-        for (int i = 0; i<ingredients.size(); i++){
-            if (i == ingredients.size()-1){
-                ingsCopy = ingsCopy + ingredients.get(i);
-            }else{
-                ingsCopy = ingsCopy + ingredients.get(i) + ", ";
-            }
-        }
-        mLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
-        if (rec.getImgUrl().contains("gefest")){
-            mLoader.displayImage(placeholderUrl, image);
-        }else{
-            mLoader.displayImage(rec.getImgUrl(), image);
-        }
-        ings.setText(ingsCopy);
-        name.setText(rec.getName());
-
-        return convertView;
+    public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new RecipeViewHolder(LayoutInflater.from(context).inflate(R.layout.recipe_part,parent,false));
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
+        holder.name.setText(rec.get(position).getName());
+        Recipe recipe = new Recipe(rec.get(position));
+        String ings = "";
+        ingsList2 = recipe.getIng();
+        for (int i = 0; i<recipe.getIng().size(); i++){
+            if (i == recipe.getIng().size() -1){
+                ings = ings + ingsList2.get(i);
+            } else{
+                ings = ings + ingsList2.get(i) + ", ";
+            }
+            }
+        holder.ings.setText(ings);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(context.getApplicationContext()));
+        if (recipe.getImgUrl().contains("gefest")){
+            imageLoader.displayImage(urlPlaceholder, holder.image);
+        } else{
+            imageLoader.displayImage(recipe.getImgUrl(), holder.image);
+        }
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return rec.size();
+    }
+
+    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        TextView ings;
+        ShapeableImageView image;
+        public RecipeViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.recipeName);
+            ings = itemView.findViewById(R.id.recipeIngs);
+            image = itemView.findViewById(R.id.recipeImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (recyclerViewOnClickInterface != null){
+                        int position = getAdapterPosition();
+                        if (position !=RecyclerView.NO_POSITION){
+                            recyclerViewOnClickInterface.onItemClick(position);
+                        }
+                    }
+                }
+            });
+        }
+    }
 }
 

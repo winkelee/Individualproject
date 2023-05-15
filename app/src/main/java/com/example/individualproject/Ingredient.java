@@ -14,6 +14,11 @@ public class Ingredient {
 
     }
 
+    public Ingredient(Ingredient ingredient){
+        this.name = ingredient.getName();
+        this.id = ingredient.getId();
+    }
+
     public Ingredient(int id2, String name){
         this.id2 = id2;
         this.name = name;

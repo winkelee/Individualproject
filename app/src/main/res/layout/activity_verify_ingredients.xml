@@ -9,7 +9,7 @@
 
 
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingList"
         android:layout_width="match_parent"
         android:drawSelectorOnTop="false"
@@ -20,7 +20,7 @@
         android:divider="#00000000"
         android:dividerHeight="10dp"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="158dp"> </ListView>
+        tools:layout_editor_absoluteY="158dp"> </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/textView"

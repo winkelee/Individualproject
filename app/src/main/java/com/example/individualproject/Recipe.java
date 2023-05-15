@@ -37,6 +37,18 @@ public class Recipe {
 
     }
 
+    public Recipe(Recipe recipe) {
+        this.name = recipe.getName();
+        this.id = recipe.getId();
+        this.imgUrl = recipe.getImgUrl();
+        this.ing = recipe.getIng();
+        this.ingShowUp = recipe.getIngShowUp();
+        this.step = recipe.step;
+        this.descAlt = recipe.getDescAlt();
+    }
+
+
+
     public String getName() {
         return name;
     }

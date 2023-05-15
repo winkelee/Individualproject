@@ -2,9 +2,12 @@ package com.example.individualproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,11 +21,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class VerifyIngredientsActivity extends AppCompatActivity {
+public class VerifyIngredientsActivity extends AppCompatActivity implements RecyclerViewOnClickInterface{
 
-    private ListView listView;
+    private RecyclerView recyclerView;
     private IngredientsAdapter ia;
-    public static ArrayList userPreferences = new ArrayList(MainActivity.userPreferences);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,31 +33,32 @@ public class VerifyIngredientsActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         listMethod();
-        listenerMethod();
+
 
     }
 
     private void listMethod(){
-        listView = findViewById(R.id.ingList);
-        ia = new IngredientsAdapter(0, getApplicationContext(), userPreferences);
-        listView.setAdapter(ia);
+        recyclerView = findViewById(R.id.ingList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ia = new IngredientsAdapter(getApplicationContext(), MainActivity.userPreferences, this);
+        recyclerView.setAdapter(ia);
 
     }
 
-    private void listenerMethod(){
+   //private void listenerMethod(){
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+   //    recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+   //        @Override
+   //        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Ingredient item = (Ingredient) listView.getItemAtPosition(i);
-                userPreferences.remove(item);
-                ia.remove(item);
-                ia.notifyDataSetChanged();
-                Toast.makeText(VerifyIngredientsActivity.this, "Вы убрали: " + item.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+   //            Ingredient item = (Ingredient) listView.getItemAtPosition(i);
+   //            userPreferences.remove(item);
+   //            ia.remove(item);
+   //            ia.notifyDataSetChanged();
+   //            Toast.makeText(VerifyIngredientsActivity.this, "Вы убрали: " + item.getName(), Toast.LENGTH_SHORT).show();
+   //        }
+   //    });
+   //}
 
     public void toRecipes(View view){
         Intent intent = new Intent(VerifyIngredientsActivity.this, RecipesActivity.class);
@@ -63,4 +66,11 @@ public class VerifyIngredientsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(int i) {
+        Ingredient item = MainActivity.userPreferences.get(i);
+        MainActivity.userPreferences.remove(item);
+        Toast.makeText(this, "Вы убрали: " + item.getName(), Toast.LENGTH_SHORT).show();
+        ia.notifyDataSetChanged();
+    }
 }
