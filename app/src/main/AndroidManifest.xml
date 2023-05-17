@@ -15,6 +15,13 @@
         android:theme="@style/Theme.IndividualProject"
         tools:targetApi="31">
         <activity
+            android:name=".NewRecipeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".DetailedRecipeActivity"
             android:exported="false">
             <meta-data

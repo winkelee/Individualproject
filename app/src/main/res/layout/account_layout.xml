@@ -14,19 +14,18 @@
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="167dp"
         android:fontFamily="@font/namu"
+        android:textSize="10pt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cont"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="182dp"
         android:layout_height="76dp"
-        android:layout_below="@+id/accView"
+        android:layout_below="@+id/DisSubmit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
-
         android:layout_marginTop="60dp"
         android:layout_marginEnd="219dp"
         android:background="@drawable/rounded"
@@ -38,22 +37,75 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/quit"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="182dp"
         android:layout_height="76dp"
-        android:layout_below="@+id/accView"
+        android:layout_below="@+id/DisSubmit"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="212dp"
         android:fontFamily="@font/namu"
         android:layout_marginLeft="20dp"
-
         android:layout_marginTop="61dp"
         android:layout_marginEnd="17dp"
         android:layout_toRightOf="@+id/cont"
-        android:background="@drawable/rounded"
+        android:background="@drawable/rounded_inversive"
         android:onClick="toQuit"
         android:padding="4dp"
         android:text="Войти в новый аккаунт"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/newRecipe"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="182dp"
+        android:layout_height="76dp"
+        android:layout_below="@id/quit"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded"
+        android:fontFamily="@font/namu"
+        android:layout_marginTop="80dp"
+        android:text="добавить рецепт"
+        android:textColor="@color/white"
+        android:onClick="toCreateRecipeActivity" />
+
+    <TextView
+        android:id="@+id/accInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Укажите диапазон поиска ниже."
+        android:textColor="#434343"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="167dp"
+        android:fontFamily="@font/namu"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/accView"
+        android:layout_marginTop="50dp"/>
+
+    <EditText
+        android:id="@+id/accDis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Введите диапазон поиска."
+        android:textColor="#434343"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="167dp"
+        android:fontFamily="@font/namu"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/accInfo"
+        android:layout_marginTop="30dp"
+        android:inputType="number"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/DisSubmit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="182dp"
+        android:layout_height="76dp"
+        android:layout_below="@id/accDis"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded"
+        android:fontFamily="@font/namu"
+        android:layout_marginTop="20dp"
+        android:text="Подтвердить изменения"
+        android:textColor="@color/white"
+        android:onClick="toSubmitRange" />
 </RelativeLayout>
