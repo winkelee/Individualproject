@@ -16,6 +16,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
     RecyclerViewOnClickInterface recyclerViewOnClickInterface;
     Context context;
     ArrayList ingsList2;
+    UrlValidator urlValidator = new UrlValidator();
     String urlPlaceholder = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
     List<Recipe> rec;
 
@@ -62,7 +64,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipeVi
         holder.ings.setText(ings);
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context.getApplicationContext()));
-        if (recipe.getImgUrl().contains("gefest")){
+        if (!urlValidator.isValid(recipe.getImgUrl())){
             imageLoader.displayImage(urlPlaceholder, holder.image);
         } else{
             imageLoader.displayImage(recipe.getImgUrl(), holder.image);

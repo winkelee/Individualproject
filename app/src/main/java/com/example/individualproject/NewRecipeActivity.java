@@ -2,10 +2,12 @@ package com.example.individualproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,7 +46,7 @@ public class NewRecipeActivity extends AppCompatActivity {
 
     public void toCreateRecipe(View view){
         recipeDesc1 = recipeDesc.getText().toString(); //Описание ингредиента (пока только текстовое, без шагов)
-        recipeImage1 = recipeImage.getText().toString(); //Картинка ингредиента TODO: проверка ссылки на валидность
+        recipeImage1 = recipeImage.getText().toString(); //Картинка ингредиента
         recipeName1 = recipeName.getText().toString(); // Имя ингредиента
         recipeIngsShowUpString = recipeIngs.getText().toString();
 
@@ -70,8 +72,17 @@ public class NewRecipeActivity extends AppCompatActivity {
             String ingNameDone = ingNameArray[0];
             ingsSearch.add(ingNameDone); //ingsSearch - массив с ингредиентами для поиска
         }
-        id = db.getKey();
-        Recipe recipe = new Recipe(id, recipeName1, recipeImage1, ingsSearch, ingsShowUp, recipeDesc1);
-        Log.d("Logger", "toCreateRecipe: Recipe is " + recipe);
+
+        if (recipeDesc1.equals("") || recipeImage1.equals("")|| recipeName1.equals("") || ingsShowUp.isEmpty() || ingsSearch.isEmpty()){
+            Toast.makeText(this, "Одно или несколько текстовых полей остались пустыми. Пожалуйста, убедитесь, что все поля заполнены и повторите попытку.", Toast.LENGTH_LONG).show();
+        } else{
+            id = db.getKey();
+            Recipe recipe = new Recipe(id, recipeName1, recipeImage1, ingsSearch, ingsShowUp, recipeDesc1);
+            Log.d("Logger", "toCreateRecipe: Recipe is " + recipe);
+            Toast.makeText(this, "Ваш рецепт был добавлен успешно!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(NewRecipeActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
     }
 }

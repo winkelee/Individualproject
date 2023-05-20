@@ -128,6 +128,12 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
                             Log.d(TAG, "onDataChange: " + recipe);
                         }
                     }
+                    else{
+                        if (equalCount >= searchList.size()/3){
+                            showUpRecipe.add(recipe);
+                            Log.d(TAG, "onDataChange: " + recipe);
+                        }
+                    }
 
 
                     equalCount = 0;
