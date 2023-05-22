@@ -1,14 +1,19 @@
 package com.example.individualproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +30,7 @@ public class NewRecipeActivity extends AppCompatActivity {
     private DatabaseReference db;
     private String recipeName1;
     private String recipeImage1;
+    Toolbar toolbar;
     private String recipeDesc1;
     private String recipeIngsShowUpString;
     private ArrayList ingsShowUp = new ArrayList();
@@ -39,9 +45,41 @@ public class NewRecipeActivity extends AppCompatActivity {
 
         recipeDesc = findViewById(R.id.newRecDesc);
         recipeImage = findViewById(R.id.newRecImage);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         recipeName = findViewById(R.id.newRecName);
         recipeIngs = findViewById(R.id.newRecIngs);
         db = FirebaseDatabase.getInstance().getReference("Recipes");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.newRecipeItem){
+            Toast.makeText(this, "Вы уже на странице добавления нового рецепта!", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.redactRange){
+            Intent intent = new Intent(NewRecipeActivity.this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactIngs){
+            Intent intent = new Intent(NewRecipeActivity.this, VerifyIngredientsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.logOut){
+            Intent intent = new Intent(NewRecipeActivity.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent);
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     public void toCreateRecipe(View view){

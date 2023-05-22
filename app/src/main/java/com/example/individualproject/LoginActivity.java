@@ -1,19 +1,27 @@
 package com.example.individualproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,11 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.greetings_layout);
-        getSupportActionBar().hide();
+
         //привязываем значения
         textPass = findViewById(R.id.pass);
         textLog = findViewById(R.id.email);
-        mAuth = FirebaseAuth.getInstance(); //решил не рисковать и назвал переменную как в примере в самом firebase :)
+        mAuth = FirebaseAuth.getInstance(); // назвал переменную как в примере в самом firebase :)
+
     }
 
     @Override
@@ -48,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void toSignUp(View view){ // Метод для регистрации
-        if(!textLog.getText().toString().equals("") && !textPass.getText().toString().equals("")){
+        if(!textLog.getText().toString().equals("") && !textPass.getText().toString().equals("") && textPass.length() >= 6){
             mAuth.createUserWithEmailAndPassword(textLog.getText().toString(), textPass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -63,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+        } else{
+            Toast.makeText(this, "Почта и пароль не могут быть пустыми. Пароль должен содержать не менее 6 символов. Пожалуйста, попробуйте ещё раз.", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -76,17 +87,20 @@ public class LoginActivity extends AppCompatActivity {
                         alreadySignedIn();
                         Log.d("TAG", "onComplete: success!");
                     }else{
+                        Toast.makeText(LoginActivity.this, "Неправильные почта или пароль. Пожалуйста, попробуйте ещё раз.", Toast.LENGTH_SHORT).show();
                         Log.e("User", "onComplete: failed! What? How?");
                     }
 
                 }
             });
+        } else{
+            Toast.makeText(LoginActivity.this, "Неправильные почта или пароль. Пожалуйста, попробуйте ещё раз.", Toast.LENGTH_SHORT).show();
         }
 
     }
     public void alreadySignedIn(){ //Метод для перехода с этой активности на акк, никакой магии
         if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()){
-            Intent intent = new Intent(LoginActivity.this, AccountActivity.class); //если он уже вошёл, то смысл входить ещё раз? Просто перенаправляем в АА.
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class); //если он уже вошёл, то смысл входить ещё раз? Просто перенаправляем в АА.
             startActivity(intent);
         }
 
@@ -107,6 +121,11 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void toResetPasswordActivity(View view){
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
 

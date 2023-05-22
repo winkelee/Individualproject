@@ -2,8 +2,10 @@ package com.example.individualproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -11,9 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -28,6 +33,7 @@ public class DetailedRecipeActivity extends AppCompatActivity {
     public String recImage;
     public String recIngs;
     private Bitmap is;
+    Toolbar toolbar;
     private Handler h;
     private String placeholderUrl;
     private TextView recNameShowUp;
@@ -38,11 +44,13 @@ public class DetailedRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail);
-        getSupportActionBar().hide();
 
         recImage = RecipesActivity.recImage;
         recSteps = RecipesActivity.recSteps;
         recName = RecipesActivity.recName;
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         recIngs = RecipesActivity.recIngs;
 
         recIngsShowUp = findViewById(R.id.recIngsDetailed);
@@ -84,5 +92,35 @@ public class DetailedRecipeActivity extends AppCompatActivity {
         });
         thread.start();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.newRecipeItem){
+            Intent intent = new Intent(DetailedRecipeActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactRange){
+            Intent intent = new Intent(DetailedRecipeActivity.this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactIngs){
+            Intent intent = new Intent(DetailedRecipeActivity.this, VerifyIngredientsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.logOut){
+            Intent intent = new Intent(DetailedRecipeActivity.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent);
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 }

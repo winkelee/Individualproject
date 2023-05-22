@@ -9,8 +9,10 @@
         android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/logo"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/logo_centered"
+        android:scaleX="5"
+        android:scaleY="5"
         android:layout_centerHorizontal="true"
         />
 
@@ -20,9 +22,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
 
-        android:text="Добро пожаловать в APP_NAME!"
+        android:text="Добро пожаловать в OnlyFreezr!"
         android:layout_below="@+id/logo"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/namu"
         android:textSize="25dp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -35,10 +41,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Для продолжения введите ваше имя:"
+        android:text="Для продолжения войдите в аккаунт или зарегестрируйтесь:"
         android:layout_below="@+id/textview1"
         android:layout_marginTop="20dp"
         android:textSize="22dp"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/namu"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"></TextView>
 
@@ -48,6 +58,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:fontFamily="@font/namu"
         android:hint="E-Mail:"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
@@ -58,6 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:fontFamily="@font/namu"
         android:inputType="textPassword"
         android:hint="Пароль:"
         android:layout_marginTop="20dp"
@@ -65,44 +77,50 @@
         android:layout_below="@+id/email"
         />
 
+<androidx.appcompat.widget.AppCompatButton
+    android:layout_width="180dp"
+    android:layout_height="75dp"
+    android:id="@+id/signUp"
+    android:layout_below="@id/pass"
+    android:layout_marginTop="20dp"
+    android:text="Создать аккаунт"
+    android:layout_marginRight="15dp"
+    android:onClick="toSignUp"
+    android:fontFamily="@font/namu"
+    android:textColor="@color/black"
+    android:layout_toRightOf="@id/signIn"
+    android:background="@drawable/rounded_inversive"
+    />
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signUp"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="198dp"
+        android:layout_width="180dp"
         android:layout_height="75dp"
-        android:layout_below="@+id/pass"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="203dp"
-
-        android:background="@drawable/rounded"
-        android:onClick="toSignUp"
-        android:padding="4dp"
-        android:text="Зарегестрироваться"
-        android:textColor="@color/white" />
-
-    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signIn"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="198dp"
-        android:layout_height="75dp"
-        android:layout_below="@+id/pass"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="213dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toRightOf="@id/signUp"
-        android:background="@drawable/rounded"
-        android:onClick="toSignIn"
-        android:padding="4dp"
+        android:fontFamily="@font/namu"
+        android:layout_below="@id/pass"
+        android:layout_marginTop="20dp"
         android:text="Войти"
-        android:textColor="@color/white" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:onClick="toSignIn"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_below="@id/signIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Забыли пароль?"
+        android:fontFamily="@font/namu"
+        android:onClick="toResetPasswordActivity"
+        android:textColor="@color/black"
+        android:textSize="8pt"
+        android:layout_height="wrap_content"></TextView>
+
+
+
 
 
 </RelativeLayout>

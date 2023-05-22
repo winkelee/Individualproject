@@ -13,5 +13,16 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:editTextColor">@color/black</item>
+        <item name="color">@color/transparent</item>
+        <item name="windowActionBar">false</item>
     </style>
+
+    <style name="Theme.IndividualProject.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.IndividualProject.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.IndividualProject.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

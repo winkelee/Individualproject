@@ -2,17 +2,21 @@ package com.example.individualproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -25,12 +29,16 @@ public class VerifyIngredientsActivity extends AppCompatActivity implements Recy
 
     private RecyclerView recyclerView;
     private IngredientsAdapter ia;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_ingredients);
-        getSupportActionBar().hide();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         listMethod();
 
@@ -45,20 +53,35 @@ public class VerifyIngredientsActivity extends AppCompatActivity implements Recy
 
     }
 
-   //private void listenerMethod(){
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.newRecipeItem){
+            Intent intent = new Intent(VerifyIngredientsActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactRange){
+            Intent intent = new Intent(VerifyIngredientsActivity.this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactIngs){
+            Toast.makeText(this, "Вы уже на странице изменения ингредиентов!", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.logOut){
+            Intent intent = new Intent(VerifyIngredientsActivity.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent);
+            return true;
+        }
+        return true;
+    }
 
-   //    recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-   //        @Override
-   //        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-   //            Ingredient item = (Ingredient) listView.getItemAtPosition(i);
-   //            userPreferences.remove(item);
-   //            ia.remove(item);
-   //            ia.notifyDataSetChanged();
-   //            Toast.makeText(VerifyIngredientsActivity.this, "Вы убрали: " + item.getName(), Toast.LENGTH_SHORT).show();
-   //        }
-   //    });
-   //}
 
     public void toRecipes(View view){
         Intent intent = new Intent(VerifyIngredientsActivity.this, RecipesActivity.class);

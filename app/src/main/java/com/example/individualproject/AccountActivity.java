@@ -1,9 +1,13 @@
 package com.example.individualproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,32 +18,24 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private TextView textView;
     private EditText range;
     public static int rangeInt =-1;
     private int rangeIntCopy;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+
         setContentView(R.layout.account_layout);
-        textView = findViewById(R.id.accView);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         range = findViewById(R.id.accDis);
-        textView.setText("Добро пожаловать! Вы вошли в аккаунт.");
 
     }
 
-    public void toQuit(View view){
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
 
-    public void toCont(View view){
-        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
     public void toSubmitRange(View view){
     String rangeString = range.getText().toString();
     rangeIntCopy = Integer.parseInt(rangeString);
@@ -52,8 +48,32 @@ public class AccountActivity extends AppCompatActivity {
 
     }
 
-    public void toCreateRecipeActivity(View view){
-        Intent intent = new Intent(AccountActivity.this, NewRecipeActivity.class);
-        startActivity(intent);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.newRecipeItem){
+            Intent intent = new Intent(AccountActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactRange){
+            Toast.makeText(this, "Вы уже на странице изменения диапазона поиска!", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.redactIngs){
+            Intent intent = new Intent(AccountActivity.this, VerifyIngredientsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.logOut){
+            Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent);
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 }

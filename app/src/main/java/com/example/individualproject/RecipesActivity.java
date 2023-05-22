@@ -3,6 +3,7 @@ package com.example.individualproject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +41,7 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
     private RecipesAdapter recAdapter;
     private SearchView searchBar;
     public static String recName;
+    Toolbar toolbar;
     public static String recSteps;
     public static String recImage;
     public static String recIngs;
@@ -52,10 +57,12 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
-        getSupportActionBar().hide();
         recipeDB = FirebaseDatabase.getInstance().getReference("Recipes");
         listMethod();
         fillList();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         loadingView = findViewById(R.id.loadingView);
         searchBar = findViewById(R.id.recSearch); //Работа с поиском ингредиентов
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -76,6 +83,36 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.newRecipeItem){
+            Intent intent = new Intent(RecipesActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactRange){
+            Intent intent = new Intent(RecipesActivity.this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactIngs){
+            Intent intent = new Intent(RecipesActivity.this, VerifyIngredientsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.logOut){
+            Intent intent = new Intent(RecipesActivity.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent);
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 
     private void listMethod(){

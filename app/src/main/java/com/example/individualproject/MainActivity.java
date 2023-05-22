@@ -1,7 +1,10 @@
 package com.example.individualproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +24,8 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +47,11 @@ import java.util.TreeSet;
 public class MainActivity extends AppCompatActivity implements RecyclerViewOnClickInterface{
     public static ArrayList<Ingredient> ar = new ArrayList<>();
     private RecyclerView lv;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private DatabaseReference ingdsDB;
+    Toolbar toolbar;
     private IngredientsAdapter ia;
     private SearchView searchBar;
     final static String url= "https://www.povarenok.ru/recipes/~";
@@ -61,10 +70,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewOnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
-        getSupportActionBar().hide();
         ingdsDB = FirebaseDatabase.getInstance().getReference("Ingredients");
         Log.e("Logger", "onCreate: " + ingdsDB);
         lv = findViewById(R.id.CatList);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         searchBar = findViewById(R.id.searchBar); //Работа с поиском ингредиентов
         lv.setLayoutManager(new LinearLayoutManager(this));
         ia = new IngredientsAdapter(getApplicationContext(), ar, this);
@@ -93,6 +104,35 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewOnCli
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.newRecipeItem){
+            Intent intent = new Intent(MainActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactRange){
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.redactIngs){
+            Intent intent = new Intent(MainActivity.this, VerifyIngredientsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.logOut){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent);
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
 
 

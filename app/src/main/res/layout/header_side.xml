@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/logo_filled_big_up"
+    android:scaleX="1"
+    android:scaleY="1"
+    android:orientation="vertical"
+    android:layout_height="200dp">
+
+    <TextView
+        android:id="@+id/navName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10pt"
+        android:text="Name"
+        android:fontFamily="@font/namu"
+        android:textColor="@color/white"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/navAccInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="7pt"
+        android:text="Аккаунт OnlyFreezr"
+        android:fontFamily="@font/namu"
+        android:textColor="@color/white"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="20dp"></TextView>
+
+
+
+</LinearLayout>
