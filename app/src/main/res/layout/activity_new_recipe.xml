@@ -6,15 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".NewRecipeActivity">
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleX="5"
+        android:layout_marginTop="25dp"
+        android:scaleY="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:srcCompat="@drawable/logo_centered" />
+
     <EditText
-        android:hint="Имя рецепта"
         android:id="@+id/newRecName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:hint="Имя рецепта"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/logo"></EditText>
 
     <EditText
         android:id="@+id/newRecIngs"

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -39,7 +40,7 @@ public class DetailedRecipeActivity extends AppCompatActivity {
     private TextView recNameShowUp;
     private TextView recStepShowUp;
     private TextView recIngsShowUp;
-    private ImageView recImageShowUp;
+    private ShapeableImageView recImageShowUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

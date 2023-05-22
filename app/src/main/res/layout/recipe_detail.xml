@@ -9,11 +9,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/recImageDetailed"
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
                 android:gravity="center"
+                app:shapeAppearanceOverlay="@style/cornered"
                 android:src="@drawable/placeholder"
                 android:scaleX="1.8"
                 android:scaleY="1.2"
@@ -58,6 +59,8 @@
                 android:textSize="17dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
                 android:textColor="@color/evenDarkerGray"
                 android:layout_marginTop="50dp"
                 android:fontFamily="@font/namu"

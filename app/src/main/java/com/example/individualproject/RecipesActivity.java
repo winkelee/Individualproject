@@ -42,6 +42,7 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
     private SearchView searchBar;
     public static String recName;
     Toolbar toolbar;
+    ArrayList<Recipe> recList = new ArrayList<>();
     public static String recSteps;
     public static String recImage;
     public static String recIngs;
@@ -73,7 +74,7 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
 
             @Override
             public boolean onQueryTextChange(String s) { //Вызывается каждый раз когда пользователь меняет текст
-                ArrayList<Recipe> recList = new ArrayList<>();
+                recList.clear();
                 for (Recipe rec : showUpRecipe){
                     if (rec.getName().toLowerCase().contains(s.toLowerCase())){
                         recList.add(rec);
@@ -133,6 +134,7 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
                 showUpRecipe.clear();
             }
 
+
             if (MainActivity.userPreferences.isEmpty()){
                 for(DataSnapshot ds : snapshot.getChildren()){
                     HashMap<String, String> recipe1 = (HashMap<String, String>) ds.getValue();
@@ -166,7 +168,13 @@ public class RecipesActivity extends AppCompatActivity implements RecyclerViewOn
                         }
                     }
                     else{
-                        if (equalCount >= searchList.size()/3){
+                        if (searchList.size()/3 !=0 && equalCount >= searchList.size()/3){
+                            showUpRecipe.add(recipe);
+                            Log.d(TAG, "onDataChange: " + recipe);
+                        } else if (searchList.size()/4 !=0 && equalCount >= searchList.size()/4){
+                            showUpRecipe.add(recipe);
+                            Log.d(TAG, "onDataChange: " + recipe);
+                        } else if (searchList.size()/5 !=0 && equalCount >= searchList.size()/5){
                             showUpRecipe.add(recipe);
                             Log.d(TAG, "onDataChange: " + recipe);
                         }
@@ -191,29 +199,56 @@ recipeDB.addValueEventListener(vel);
 
     @Override
     public void onItemClick(int i) {
-        Recipe item = new Recipe(showUpRecipe.get(i));
-        Intent intent = new Intent(getApplicationContext(), DetailedRecipeActivity.class);
-        ArrayList showUpIngs;
-        showUpIngs = item.getIngShowUp();
-        ArrayList recStepsCopy;
-        recStepsCopy= item.getStep();
-        recIngs = "";
-        recSteps = "";
-        recName = item.getName();
-        recImage = item.getImgUrl();
-        for (int count = 0; count< showUpIngs.size(); count++){
-            recIngs = recIngs + " \n " + " \n " + (count+1) + ". " + showUpIngs.get(count);
-        }
-        if (recStepsCopy.isEmpty()){
-            recSteps = item.getDescAlt();
-        }if(item.getDescAlt().contains("Нравятся наши рецепты?")){
-            recSteps = "Рецепт незакончен пользователем";
-        }
-        else{
-            for (int count = 0; count< recStepsCopy.size(); count++){
-                recSteps = recSteps + " \n " + " \n " + (count+1) + ". " + recStepsCopy.get(count);
+        if(recList.isEmpty()){
+            Recipe item = new Recipe(showUpRecipe.get(i));
+            Intent intent = new Intent(getApplicationContext(), DetailedRecipeActivity.class);
+            ArrayList showUpIngs;
+            showUpIngs = item.getIngShowUp();
+            ArrayList recStepsCopy;
+            recStepsCopy= item.getStep();
+            recIngs = "";
+            recSteps = "";
+            recName = item.getName();
+            recImage = item.getImgUrl();
+            for (int count = 0; count< showUpIngs.size(); count++){
+                recIngs = recIngs + " \n " + " \n " + (count+1) + ". " + showUpIngs.get(count);
             }
+            if (recStepsCopy.isEmpty()){
+                recSteps = item.getDescAlt();
+            }if(item.getDescAlt().contains("Нравятся наши рецепты?")){
+                recSteps = "Рецепт незакончен пользователем";
+            }
+            else{
+                for (int count = 0; count< recStepsCopy.size(); count++){
+                    recSteps = recSteps + " \n " + " \n " + (count+1) + ". " + recStepsCopy.get(count);
+                }
+            }
+            startActivity(intent);
+        } else{
+            Recipe item = new Recipe(recList.get(i));
+            Intent intent = new Intent(getApplicationContext(), DetailedRecipeActivity.class);
+            ArrayList showUpIngs;
+            showUpIngs = item.getIngShowUp();
+            ArrayList recStepsCopy;
+            recStepsCopy= item.getStep();
+            recIngs = "";
+            recSteps = "";
+            recName = item.getName();
+            recImage = item.getImgUrl();
+            for (int count = 0; count< showUpIngs.size(); count++){
+                recIngs = recIngs + " \n " + " \n " + (count+1) + ". " + showUpIngs.get(count);
+            }
+            if (recStepsCopy.isEmpty()){
+                recSteps = item.getDescAlt();
+            }if(item.getDescAlt().contains("Нравятся наши рецепты?")){
+                recSteps = "Рецепт незакончен пользователем";
+            }
+            else{
+                for (int count = 0; count< recStepsCopy.size(); count++){
+                    recSteps = recSteps + " \n " + " \n " + (count+1) + ". " + recStepsCopy.get(count);
+                }
+            }
+            startActivity(intent);
         }
-        startActivity(intent);
     }
 }

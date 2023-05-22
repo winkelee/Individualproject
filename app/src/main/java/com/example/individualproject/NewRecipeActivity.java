@@ -117,6 +117,7 @@ public class NewRecipeActivity extends AppCompatActivity {
             id = db.getKey();
             Recipe recipe = new Recipe(id, recipeName1, recipeImage1, ingsSearch, ingsShowUp, recipeDesc1);
             Log.d("Logger", "toCreateRecipe: Recipe is " + recipe);
+            db.push().setValue(recipe);
             Toast.makeText(this, "Ваш рецепт был добавлен успешно!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(NewRecipeActivity.this, MainActivity.class);
             startActivity(intent);

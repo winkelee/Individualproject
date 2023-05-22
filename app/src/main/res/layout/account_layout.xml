@@ -7,14 +7,26 @@
     android:layout_height="match_parent">
 
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/logo_centered"
+        android:scaleX="5"
+        android:scaleY="5"
+        android:layout_centerHorizontal="true"
+        />
 
 
     <TextView
+        android:layout_below="@id/logo"
         android:id="@+id/accInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Укажите диапазон поиска ниже."
         android:textColor="#434343"
+        android:textSize="8pt"
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="167dp"
         android:fontFamily="@font/namu"
